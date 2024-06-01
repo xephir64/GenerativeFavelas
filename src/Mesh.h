@@ -22,7 +22,7 @@ class Mesh {
         // Delete buffers/clear memory
         void Delete();
       protected:
-        // COnfigure mesh
+        // Configure mesh
         void setupMesh();
         // Compute vertex normals
         void computeVertexNormals(std::vector<glm::vec3> vertices);
