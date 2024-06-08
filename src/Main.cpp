@@ -9,10 +9,12 @@
 
 #include "Camera.h"
 #include "Config.h"
+#include "GridHelper.h"
+#include "Group.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Wall.h"
-#include "GridHelper.h"
+
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -22,7 +24,7 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-Camera camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -55,11 +57,18 @@ int main(void) {
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
 
+    Group wallGroup;
+
+    for (int i = 0; i < 5; i++) {
+        Wall wall;
+        wall.makeWall(1.0f, 1.0f, 1.0f, -0.3f);
+        wall.setPosition(glm::vec3(1.0f + (float)i, 1.0f, 1.0f));
+        wall.setColor(glm::vec3(0.0f + (float)i, 0.5f, 0.31f));
+        wallGroup.Add(wall);
+    }
+
     GridHelper gridH;
     gridH.makeGridHelper(10);
-
-    Wall wall;
-    wall.makeWall(1.0f, 1.0f, 1.0f, -0.3f);
 
     Shader shaderProgram("../../resources/shaders/shader.vert", "../../resources/shaders/shader.frag");
 
@@ -81,27 +90,25 @@ int main(void) {
 
         shaderProgram.use();
 
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 projection =
+            glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         shaderProgram.setMat4("projection", projection);
 
         glm::mat4 view = camera.GetViewMatrix();
         shaderProgram.setMat4("view", view);
 
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0, 1, 0));
-        shaderProgram.setMat4("model", model);
-        shaderProgram.setVec3("objectColor", glm::vec3(1.0f ,0.5f ,0.31f));
-        wall.Draw(shaderProgram);
+        wallGroup.Draw(shaderProgram);
 
+        glm::mat4 model = glm::mat4(1.0f);
         model = glm::scale(model, glm::vec3(5, 5, 5));
         shaderProgram.setMat4("model", model);
-        shaderProgram.setVec3("objectColor", glm::vec3(0.0f ,0.5f ,0.31f));
+        shaderProgram.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
         gridH.Draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    wall.Delete();
+    wallGroup.Clear();
     glDeleteProgram(shaderProgram.ID);
 
     glfwTerminate();

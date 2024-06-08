@@ -2,6 +2,10 @@
 
 void Mesh::Draw(Shader &shader) {
     // TODO: Apply Shader before rendering Shader
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, position);
+    shader.setMat4("model", model);
+    shader.setVec3("objectColor", color);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
@@ -61,3 +65,7 @@ void Mesh::Delete() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
 }
+
+void Mesh::setPosition(glm::vec3 position) { this->position = position; }
+
+void Mesh::setColor(glm::vec3 color) { this->color = color; }

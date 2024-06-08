@@ -1,30 +1,27 @@
 #include "GridHelper.h"
 
-
 void GridHelper::makeGridHelper(unsigned int n) {
-
-  for(int j=0; j<=n; ++j) {
-    for(int i=0; i<=n; ++i) {
-      float x = (float)i/(float)n;
-      float y = 0;
-      float z = (float)j/(float)n;
-      vertices.push_back(glm::vec3(x, y, z));
+    for (int j = 0; j <= n; j++) {
+        for (int i = 0; i <= n; i++) {
+            float x = (float)i / (float)n;
+            float y = 0;
+            float z = (float)j / (float)n;
+            vertices.push_back(glm::vec3(x, y, z));
+        }
     }
-  }
 
-  for(int j=0; j<n; ++j) {
-    for(int i=0; i<n; ++i) {
+    for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
 
-      int row1 =  j    * (n+1);
-      int row2 = (j+1) * (n+1);
+            int row1 = j * (n + 1);
+            int row2 = (j + 1) * (n + 1);
 
-      indices.push_back(glm::uvec4(row1+i, row1+i+1, row1+i+1, row2+i+1));
-      indices.push_back(glm::uvec4(row2+i+1, row2+i, row2+i, row1+i));
-
+            indices.push_back(glm::uvec4(row1 + i, row1 + i + 1, row1 + i + 1, row2 + i + 1));
+            indices.push_back(glm::uvec4(row2 + i + 1, row2 + i, row2 + i, row1 + i));
+        }
     }
-  }
 
-  setupMesh();
+    setupMesh();
 }
 
 void GridHelper::setupMesh() {
@@ -46,9 +43,9 @@ void GridHelper::setupMesh() {
 }
 
 void GridHelper::Draw() {
-  glEnable(GL_DEPTH_TEST);
-  glBindVertexArray(VAO);
-  glDrawElements(GL_LINES, indices.size() * 4, GL_UNSIGNED_INT, NULL);
-  glBindVertexArray(0);
-  glDisable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glBindVertexArray(VAO);
+    glDrawElements(GL_LINES, indices.size() * 4, GL_UNSIGNED_INT, NULL);
+    glBindVertexArray(0);
+    glDisable(GL_DEPTH_TEST);
 }
