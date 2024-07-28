@@ -1,7 +1,15 @@
 #include "FavelasConfig.h"
-#include <immintrin.h> // For rdrand
+#include <stdlib.h>
 
-void FavleasConfig::generateConfiguration() {
-    unsigned int rand;
-    //_rdrand32_step(&rand);
+unsigned int getRandomNumber(unsigned int min, unsigned int max) { return rand() % max - min; }
+
+void FavelasConfig::generateConfiguration() {
+    this->config.housesPerRow = getRandomNumber(housesPerRowMin, housesPerRowMax);
+    // Generate Houses for each rows
+    for (int i = 0; i < nbOfRows; i++) {
+        for (int j = 0; j < this->config.housesPerRow; j++) {
+        }
+    }
 }
+
+BlockConfig FavelasConfig::getConfig() { return BlockConfig(); }
