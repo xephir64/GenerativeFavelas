@@ -23,7 +23,7 @@ class Mesh {
     void Delete();
     // Set Mesh position
     void setPosition(glm::vec3 position);
-    // Set Mesh color 
+    // Set Mesh color
     void setColor(glm::vec3 color);
 
   protected:

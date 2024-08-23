@@ -1,2 +1,8 @@
 build/
 .vscode/
+Makefile
+GenerativeFavelas
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles/
+.cache/

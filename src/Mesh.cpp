@@ -2,6 +2,7 @@
 
 void Mesh::Draw(Shader &shader) {
     // TODO: Apply Shader before rendering Shader
+    // shader.use();
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, position);
     shader.setMat4("model", model);
@@ -40,7 +41,7 @@ void Mesh::computeVertexNormals(std::vector<glm::vec3> vertices) {
 }
 
 void Mesh::setupMesh() {
-    // Generate a Vertex Array Object, a Vertex Buffer Object then an Index/Element Buffer
+    // Generate a Vertex Array Object, a Vertex Buffer Object then an Element Buffer
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);

@@ -1,30 +1,37 @@
 #ifndef FAVELAS_CONFIG_H
 #define FAVELAS_CONFIG_H
 
-const int nbOfRows = 4;
-const int housesPerRowMin = 3;
-const int housesPerRowMax = 6;
-const int houseRotationMin = -10;
-const int houseRotationMax = 10;
+#include <vector>
 
-typedef struct {
-    int rotation;
-    unsigned int width;
-    unsigned int height;
-    unsigned int depth;
-    unsigned int depthOffset;
-} House;
+namespace FavelasConstants {
+constexpr float nbOfRows = 4.0f;
+constexpr float housesPerRowMin = 3.0f;
+constexpr float housesPerRowMax = 6.0f;
+constexpr float houseRotationMin = -10.0f;
+constexpr float houseRotationMax = 10.0f;
+constexpr float rowWidth = 20;
+} // namespace FavelasConstants
 
-typedef struct {
+struct House {
+    float rotation;
+    float width;
+    float height;
+    float depth;
+    float depthOffset;
+    House(float rot = 0, float w = 0, float h = 0, float d = 0, float dOffset = 0)
+        : rotation(rot), width(w), height(h), depth(d), depthOffset(dOffset) {}
+};
+
+struct RowOfHouse {
     unsigned int houseWidth; // Should be near BlockConfig.width
-    House houses[];
-} RowOfHouse;
+    std::vector<House> houses;
+};
 
-typedef struct {
+struct BlockConfig {
     unsigned int housesPerRow;
     unsigned int width = 20;
-    RowOfHouse rows[4];
-} BlockConfig;
+    std::vector<RowOfHouse> rows;
+};
 
 class FavelasConfig {
   public:

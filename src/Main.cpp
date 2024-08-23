@@ -1,7 +1,8 @@
 #include <iostream>
 
 #include <glad/glad.h>
-#include <glfw/glfw3.h>
+
+#include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -15,6 +16,7 @@
 #include "Shader.h"
 #include "Wall.h"
 
+#include "FavelasConfig.h"
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -23,6 +25,10 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+float xOffset = 0.5f;
+float yOffset = 1.5f;
+float zOffset = 0.5f;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
 float lastX = SCR_WIDTH / 2.0f;
@@ -58,19 +64,48 @@ int main(void) {
     glfwSetScrollCallback(window, scroll_callback);
 
     Group wallGroup;
+    FavelasConfig favConfig;
+    favConfig.generateConfiguration();
+    BlockConfig config = favConfig.getConfig();
 
-    for (int i = 0; i < 5; i++) {
-        Wall wall;
-        wall.makeWall(1.0f, 1.0f, 1.0f, -0.3f);
-        wall.setPosition(glm::vec3(1.0f + (float)i, 1.0f, 1.0f));
-        wall.setColor(glm::vec3(0.0f + (float)i, 0.5f, 0.31f));
-        wallGroup.Add(wall);
+    for (int i = 0; i < 1; i++) {
+        RowOfHouse rows = config.rows.at(i);
+        float totalHousesWidth = 0.0f;
+        for (int j = 0; j < 1; j++) {
+            House house = rows.houses.at(j);
+
+            Wall wall;
+            wall.makeWall(house.width, house.height, house.depth, -0.3f);
+
+            float xPos = totalHousesWidth; // rangée
+            if (j != 0)
+                xPos += xOffset;
+
+            float yPos = 0.0f; // hauteur
+            float zPos = 0.0f; // profondeur
+            totalHousesWidth += xPos;
+
+            wall.setPosition(glm::vec3(xPos, yPos, zPos));
+            wall.setColor(glm::vec3(0.0f + (float)i, 0.5f, 0.31f));
+            wallGroup.Add(wall);
+        }
+        totalHousesWidth = 0.0f;
+    }
+
+    for (const auto &row : config.rows) {
+        std::cout << "Row width: " << row.houseWidth << "\n";
+        for (const auto &house : row.houses) {
+            std::cout << "House width: " << house.width << ", rotation: " << house.rotation
+                      << ", height: " << house.height << ", depth: " << house.depth
+                      << ", depthOffset: " << house.depthOffset << "\n";
+        }
+        std::cout << "------\n";
     }
 
     GridHelper gridH;
-    gridH.makeGridHelper(10);
+    gridH.makeGridHelper(20);
 
-    Shader shaderProgram("../../resources/shaders/shader.vert", "../../resources/shaders/shader.frag");
+    Shader shaderProgram("./../resources/shaders/shader.vert", "./../resources/shaders/shader.frag");
 
     shaderProgram.use();
 
@@ -100,7 +135,7 @@ int main(void) {
         wallGroup.Draw(shaderProgram);
 
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(5, 5, 5));
+        model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
         shaderProgram.setMat4("model", model);
         shaderProgram.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
         gridH.Draw();

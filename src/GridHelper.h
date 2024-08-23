@@ -7,6 +7,7 @@ class GridHelper {
   public:
     void makeGridHelper(unsigned int n);
     void Draw();
+
   private:
     void setupMesh();
     std::vector<glm::vec3> vertices;

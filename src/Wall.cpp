@@ -29,7 +29,7 @@ void Wall::makeWall(GLfloat width, GLfloat height, GLfloat depth, GLfloat theta)
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 2; k++) {
-                if (i == 1 && j == 1)
+                if (j == 1 && k == 1)
                     vertices.push_back(glm::vec3(xPos[k], yPos[j] + theta, zPos[i]));
                 else
                     vertices.push_back(glm::vec3(xPos[k], yPos[j], zPos[i]));
