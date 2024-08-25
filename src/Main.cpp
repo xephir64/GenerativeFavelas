@@ -26,7 +26,7 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-float xOffset = 0.5f;
+float xOffset = 0.1f;
 float yOffset = 1.5f;
 float zOffset = 0.5f;
 
@@ -68,26 +68,24 @@ int main(void) {
     favConfig.generateConfiguration();
     BlockConfig config = favConfig.getConfig();
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < config.rows.size(); i++) {
         RowOfHouse rows = config.rows.at(i);
         float totalHousesWidth = 0.0f;
-        for (int j = 0; j < 1; j++) {
+        for (int j = 0; j < rows.houses.size(); j++) {
             House house = rows.houses.at(j);
 
             Wall wall;
             wall.makeWall(house.width, house.height, house.depth, -0.3f);
 
-            float xPos = totalHousesWidth; // rangée
-            if (j != 0)
-                xPos += xOffset;
-
-            float yPos = 0.0f; // hauteur
-            float zPos = 0.0f; // profondeur
-            totalHousesWidth += xPos;
+            float xPos = totalHousesWidth;
+            float yPos = i * 2.0f; // hauteur
+            float zPos = -i * 1.5; // profondeur
 
             wall.setPosition(glm::vec3(xPos, yPos, zPos));
             wall.setColor(glm::vec3(0.0f + (float)i, 0.5f, 0.31f));
             wallGroup.Add(wall);
+
+            totalHousesWidth += house.width + xOffset;
         }
         totalHousesWidth = 0.0f;
     }
