@@ -18,6 +18,7 @@ struct House {
     float height;
     float depth;
     float depthOffset;
+    float r, g, b;
     House(float rot = 0, float w = 0, float h = 0, float d = 0, float dOffset = 0)
         : rotation(rot), width(w), height(h), depth(d), depthOffset(dOffset) {}
 };

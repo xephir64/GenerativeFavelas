@@ -31,6 +31,10 @@ void FavelasConfig::generateConfiguration() {
             float depthOffset = getRandomNumberfv(1, 3);
 
             House house(rotation, width, height, depth, depthOffset);
+            house.r = getRandomNumberfv(0.0f, 1.0f);
+            house.g = getRandomNumberfv(0.0f, 1.0f);
+            house.b = getRandomNumberfv(0.0f, 1.0f);
+
             row.houses.push_back(house);
             totalWidth += width;
         }

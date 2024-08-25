@@ -78,11 +78,11 @@ int main(void) {
             wall.makeWall(house.width, house.height, house.depth, -0.3f);
 
             float xPos = totalHousesWidth;
-            float yPos = i * 2.0f; // hauteur
-            float zPos = -i * 1.5; // profondeur
+            float yPos = i * 2.0f;
+            float zPos = -i * 1.5;
 
             wall.setPosition(glm::vec3(xPos, yPos, zPos));
-            wall.setColor(glm::vec3(0.0f + (float)i, 0.5f, 0.31f));
+            wall.setColor(glm::vec3(house.r, house.g, house.b));
             wallGroup.Add(wall);
 
             totalHousesWidth += house.width + xOffset;
@@ -90,7 +90,8 @@ int main(void) {
         totalHousesWidth = 0.0f;
     }
 
-    for (const auto &row : config.rows) {
+    // Print config
+    /*for (const auto &row : config.rows) {
         std::cout << "Row width: " << row.houseWidth << "\n";
         for (const auto &house : row.houses) {
             std::cout << "House width: " << house.width << ", rotation: " << house.rotation
@@ -98,7 +99,7 @@ int main(void) {
                       << ", depthOffset: " << house.depthOffset << "\n";
         }
         std::cout << "------\n";
-    }
+    }*/
 
     GridHelper gridH;
     gridH.makeGridHelper(20);
@@ -106,8 +107,6 @@ int main(void) {
     Shader shaderProgram("./../resources/shaders/shader.vert", "./../resources/shaders/shader.frag");
 
     shaderProgram.use();
-
-    shaderProgram.setFloat("mixValue", 0.4f);
 
     glEnable(GL_DEPTH_TEST);
 
