@@ -38,6 +38,8 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
 int main(void) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -107,8 +109,12 @@ int main(void) {
     Shader shaderProgram("./../resources/shaders/shader.vert", "./../resources/shaders/shader.frag");
 
     shaderProgram.use();
+    shaderProgram.setVec3("lightPos", lightPos);
+    shaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    shaderProgram.setVec3("viewPos", camera.Position);
 
     glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
@@ -130,12 +136,12 @@ int main(void) {
         shaderProgram.setMat4("view", view);
 
         wallGroup.Draw(shaderProgram);
-
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
-        shaderProgram.setMat4("model", model);
-        shaderProgram.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
-        gridH.Draw();
+        /*
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+                shaderProgram.setMat4("model", model);
+                shaderProgram.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
+                gridH.Draw();*/
 
         glfwSwapBuffers(window);
         glfwPollEvents();
