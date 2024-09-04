@@ -1,7 +1,7 @@
 #ifndef WALL_H
 #define WALL_H
 
-#include "Mesh.h"
+#include "../Mesh.h"
 
 class Wall : public Mesh {
   public:

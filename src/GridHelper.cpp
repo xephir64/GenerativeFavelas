@@ -1,4 +1,5 @@
 #include "GridHelper.h"
+#include "Mesh.h"
 
 void GridHelper::makeGridHelper(unsigned int n) {
     for (int j = 0; j <= n; j++) {
@@ -43,9 +44,7 @@ void GridHelper::setupMesh() {
 }
 
 void GridHelper::Draw() {
-    glEnable(GL_DEPTH_TEST);
     glBindVertexArray(VAO);
     glDrawElements(GL_LINES, indices.size() * 4, GL_UNSIGNED_INT, NULL);
     glBindVertexArray(0);
-    glDisable(GL_DEPTH_TEST);
 }

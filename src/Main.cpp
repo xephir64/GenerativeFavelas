@@ -10,11 +10,11 @@
 
 #include "Camera.h"
 #include "Config.h"
+#include "Geometry/Wall.h"
 #include "GridHelper.h"
 #include "Group.h"
 #include "Mesh.h"
 #include "Shader.h"
-#include "Wall.h"
 
 #include "FavelasConfig.h"
 
@@ -23,8 +23,8 @@ void processInput(GLFWwindow *window);
 void mouse_callback(GLFWwindow *window, double xposIn, double yposIn);
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+unsigned int SCR_WIDTH = 800;
+unsigned int SCR_HEIGHT = 600;
 
 float xOffset = 0.1f;
 float yOffset = 1.5f;
@@ -46,7 +46,7 @@ int main(void) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(800, 600, "Generative Favelas | OpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Generative Favelas | OpenGL", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -59,7 +59,7 @@ int main(void) {
         return -1;
     }
 
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
@@ -113,8 +113,17 @@ int main(void) {
     shaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     shaderProgram.setVec3("viewPos", camera.Position);
 
+    Shader gridShader("./../resources/shaders/GridShader.vert", "./../resources/shaders/GridShader.frag");
+
+    gridShader.use();
+
     glEnable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
+    // glEnable(GL_STENCIL_TEST);
+
+    glDepthFunc(GL_LESS);
+
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glDisable(GL_BLEND);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
@@ -124,7 +133,7 @@ int main(void) {
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         shaderProgram.use();
 
@@ -135,19 +144,28 @@ int main(void) {
         glm::mat4 view = camera.GetViewMatrix();
         shaderProgram.setMat4("view", view);
 
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(2.0f, 2.0f);
         wallGroup.Draw(shaderProgram);
-        /*
-                glm::mat4 model = glm::mat4(1.0f);
-                model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
-                shaderProgram.setMat4("model", model);
-                shaderProgram.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
-                gridH.Draw();*/
+        glDisable(GL_POLYGON_OFFSET_FILL);
+
+        gridShader.use();
+        gridShader.setMat4("projection", projection);
+        gridShader.setMat4("view", view);
+
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+        gridShader.setMat4("model", model);
+        gridShader.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
+        gridH.Draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+    // Clean memory
     wallGroup.Clear();
     glDeleteProgram(shaderProgram.ID);
+    glDeleteProgram(gridShader.ID);
 
     glfwTerminate();
     return 0;
