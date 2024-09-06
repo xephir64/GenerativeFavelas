@@ -10,6 +10,7 @@
 
 #include "Camera.h"
 #include "Config.h"
+#include "Geometry/Door.h"
 #include "Geometry/Wall.h"
 #include "GridHelper.h"
 #include "Group.h"
@@ -103,6 +104,9 @@ int main(void) {
         std::cout << "------\n";
     }*/
 
+    Door door;
+    door.makeDoor(1.0f, 3.0f, false);
+
     GridHelper gridH;
     gridH.makeGridHelper(20);
 
@@ -122,7 +126,7 @@ int main(void) {
 
     glDepthFunc(GL_LESS);
 
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // glDisable(GL_BLEND);
 
     while (!glfwWindowShouldClose(window)) {
@@ -146,7 +150,8 @@ int main(void) {
 
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(2.0f, 2.0f);
-        wallGroup.Draw(shaderProgram);
+        // wallGroup.Draw(shaderProgram);
+        door.Draw(shaderProgram);
         glDisable(GL_POLYGON_OFFSET_FILL);
 
         gridShader.use();
