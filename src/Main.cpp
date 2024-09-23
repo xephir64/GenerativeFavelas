@@ -80,13 +80,23 @@ int main(void) {
             Wall wall;
             wall.makeWall(house.width, house.height, house.depth, -0.3f);
 
+            Door door;
+            door.makeDoor(1.0f, 0.6f, house.door.fullWindow);
+
             float xPos = totalHousesWidth;
             float yPos = i * 2.0f;
             float zPos = -i * 1.5;
 
             wall.setPosition(glm::vec3(xPos, yPos, zPos));
             wall.setColor(glm::vec3(house.r, house.g, house.b));
+
+            float xPosDoor = (house.width / 2) + (xPos - (xOffset * i));
+
+            door.setPosition(glm::vec3(xPosDoor, yPos, zPos + house.depth + 0.01)); // 0.01 to avoid z-fighting
+            door.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
+
             wallGroup.Add(wall);
+            wallGroup.Add(door);
 
             totalHousesWidth += house.width + xOffset;
         }
@@ -104,8 +114,8 @@ int main(void) {
         std::cout << "------\n";
     }*/
 
-    Door door;
-    door.makeDoor(1.0f, 3.0f, false);
+    // Door door;
+    // door.makeDoor(1.5f, 2.0f, true);
 
     GridHelper gridH;
     gridH.makeGridHelper(20);
@@ -126,7 +136,7 @@ int main(void) {
 
     glDepthFunc(GL_LESS);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // glDisable(GL_BLEND);
 
     while (!glfwWindowShouldClose(window)) {
@@ -150,8 +160,7 @@ int main(void) {
 
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(2.0f, 2.0f);
-        // wallGroup.Draw(shaderProgram);
-        door.Draw(shaderProgram);
+        wallGroup.Draw(shaderProgram);
         glDisable(GL_POLYGON_OFFSET_FILL);
 
         gridShader.use();

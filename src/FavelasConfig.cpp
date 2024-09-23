@@ -35,6 +35,14 @@ void FavelasConfig::generateConfiguration() {
             house.g = getRandomNumberfv(0.0f, 1.0f);
             house.b = getRandomNumberfv(0.0f, 1.0f);
 
+            DoorConfig doorConfig;
+            doorConfig.r = getRandomNumberfv(0.0f, 1.0f);
+            doorConfig.g = getRandomNumberfv(0.0f, 1.0f);
+            doorConfig.b = getRandomNumberfv(0.0f, 1.0f);
+            doorConfig.fullWindow = getRandomNumberuv(0, 1);
+
+            house.door = doorConfig;
+
             row.houses.push_back(house);
             totalWidth += width;
         }

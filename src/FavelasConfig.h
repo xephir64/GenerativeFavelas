@@ -12,13 +12,20 @@ constexpr float houseRotationMax = 10.0f;
 constexpr float rowWidth = 10.0f;
 } // namespace FavelasConstants
 
+struct DoorConfig {
+    float r, g, b;
+    bool fullWindow;
+};
+
 struct House {
     float rotation;
     float width;
     float height;
     float depth;
     float depthOffset;
+    float roofSlope;
     float r, g, b;
+    struct DoorConfig door;
     House(float rot = 0, float w = 0, float h = 0, float d = 0, float dOffset = 0)
         : rotation(rot), width(w), height(h), depth(d), depthOffset(dOffset) {}
 };

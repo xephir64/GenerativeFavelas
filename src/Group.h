@@ -10,6 +10,7 @@ class Group {
     void Draw(Shader &shader);
     // Clear all meshes and cleanup memory
     void Clear();
+
   private:
     std::vector<Mesh> meshGroup;
 };
