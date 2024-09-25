@@ -5,7 +5,7 @@
  * Generate the geometry of the door (2D)
  */
 void Door::makeDoor(GLfloat width, GLfloat height, bool doubleWindow) {
-    float c = 0.09;
+    float c = 0.08;
     float rectWidth = width / 4;
     float rectHeight = height / 2;
 

@@ -12,6 +12,7 @@
 #include "Config.h"
 #include "Geometry/Door.h"
 #include "Geometry/Wall.h"
+#include "Geometry/Window.h"
 #include "GridHelper.h"
 #include "Group.h"
 #include "Mesh.h"
@@ -83,6 +84,9 @@ int main(void) {
             Door door;
             door.makeDoor(1.0f, 0.6f, house.door.fullWindow);
 
+            Window window;
+            window.makeWindow(1.0f, 1.0f);
+
             float xPos = totalHousesWidth;
             float yPos = i * 2.0f;
             float zPos = -i * 1.5;
@@ -97,6 +101,7 @@ int main(void) {
 
             wallGroup.Add(wall);
             wallGroup.Add(door);
+            // wallGroup.Add(window);
 
             totalHousesWidth += house.width + xOffset;
         }
@@ -136,8 +141,8 @@ int main(void) {
 
     glDepthFunc(GL_LESS);
 
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // glDisable(GL_BLEND);
+    //  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //  glDisable(GL_BLEND);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
