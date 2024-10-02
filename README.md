@@ -8,6 +8,6 @@ Original idea from [Adam Kuhn](https://codepen.io/cobra_winfrey/pen/yLvoWvb), wh
  - GLFW (OpenGL Framework)
  - GLM  (Maths Utilities for OpenGL)
 
-## Credits
+## Helpful Resources
 
-- [LearnOpenGL](https://learnopengl.com/), this website helped me to learn the basics of OpenGL
+- [LearnOpenGL](https://learnopengl.com/), this website helped me to learn the basics of OpenGL.

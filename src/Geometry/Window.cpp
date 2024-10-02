@@ -1,5 +1,7 @@
 #include "Window.h"
-
+/*
+ * Generate the geometry of the window (2D)
+ */
 void Window::makeWindow(GLfloat width, GLfloat height) {
     GLfloat c = 0.09;
     GLfloat windowWidth = width / 2 - c;

@@ -7,10 +7,19 @@ namespace FavelasConstants {
 constexpr float nbOfRows = 4.0f;
 constexpr float housesPerRowMin = 3.0f;
 constexpr float housesPerRowMax = 6.0f;
-constexpr float houseRotationMin = -10.0f;
-constexpr float houseRotationMax = 10.0f;
+constexpr float houseRotationMin = -5.0f;
+constexpr float houseRotationMax = 5.0f;
 constexpr float rowWidth = 10.0f;
+constexpr float roofMinSlope = -0.3f;
+constexpr float roofMaxSlope = 0.3f;
 } // namespace FavelasConstants
+
+namespace HouseConstants {
+constexpr float houseHeightMin = 1.2f;
+constexpr float houseHeightMax = 2.8f;
+constexpr float houseDepthMin = 1.0f;
+constexpr float houseDepthMax = 2.5f;
+} // namespace HouseConstants
 
 struct DoorConfig {
     float r, g, b;
@@ -26,8 +35,8 @@ struct House {
     float roofSlope;
     float r, g, b;
     struct DoorConfig door;
-    House(float rot = 0, float w = 0, float h = 0, float d = 0, float dOffset = 0)
-        : rotation(rot), width(w), height(h), depth(d), depthOffset(dOffset) {}
+    House(float rot = 0.0f, float w = 0.0f, float h = 0.0f, float d = 0.0f, float dOffset = 0.0f, float slope = 0.0f)
+        : rotation(rot), width(w), height(h), depth(d), depthOffset(dOffset), roofSlope(slope) {}
 };
 
 struct RowOfHouse {

@@ -79,25 +79,33 @@ int main(void) {
             House house = rows.houses.at(j);
 
             Wall wall;
-            wall.makeWall(house.width, house.height, house.depth, -0.3f);
+            wall.makeWall(house.width, house.height, house.depth, house.roofSlope);
 
             Door door;
-            door.makeDoor(1.0f, 0.6f, house.door.fullWindow);
+            door.makeDoor(0.8f, 0.4f, house.door.fullWindow);
+
+            float windowWidth = house.width - 0.8f;
+            float windowHeight = house.width - 0.4f;
 
             Window window;
-            window.makeWindow(1.0f, 1.0f);
+            window.makeWindow(windowWidth, windowHeight);
 
             float xPos = totalHousesWidth;
             float yPos = i * 2.0f;
-            float zPos = -i * 1.5;
+            float zPos = -i * 1.5f;
 
             wall.setPosition(glm::vec3(xPos, yPos, zPos));
             wall.setColor(glm::vec3(house.r, house.g, house.b));
 
             float xPosDoor = (house.width / 2) + (xPos - (xOffset * i));
 
-            door.setPosition(glm::vec3(xPosDoor, yPos, zPos + house.depth + 0.01)); // 0.01 to avoid z-fighting
+            door.setPosition(glm::vec3(xPosDoor, yPos, zPos + house.depth + 0.01f)); // 0.01 to avoid z-fighting
             door.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
+
+            float xPosWindow = 0.0f;
+            float yPosWindow = 0.0f;
+
+            window.setPosition(glm::vec3(xPosWindow, yPosWindow, zPos + house.depth + 0.01f));
 
             wallGroup.Add(wall);
             wallGroup.Add(door);

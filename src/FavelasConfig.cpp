@@ -26,11 +26,13 @@ void FavelasConfig::generateConfiguration() {
 
             float rotation = getRandomNumberfv(FavelasConstants::houseRotationMin, FavelasConstants::houseRotationMax);
 
-            float height = getRandomNumberfv(1, 3);
-            float depth = getRandomNumberfv(1, 3);
+            float height = getRandomNumberfv(HouseConstants::houseHeightMin, HouseConstants::houseHeightMax);
+            float depth = getRandomNumberfv(HouseConstants::houseDepthMin, HouseConstants::houseDepthMax);
             float depthOffset = getRandomNumberfv(1, 3);
 
-            House house(rotation, width, height, depth, depthOffset);
+            float slope = getRandomNumberfv(FavelasConstants::roofMinSlope, FavelasConstants::roofMaxSlope);
+
+            House house(rotation, width, height, depth, depthOffset, slope);
             house.r = getRandomNumberfv(0.0f, 1.0f);
             house.g = getRandomNumberfv(0.0f, 1.0f);
             house.b = getRandomNumberfv(0.0f, 1.0f);
