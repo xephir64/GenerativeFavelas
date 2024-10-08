@@ -9,7 +9,7 @@ constexpr float housesPerRowMin = 3.0f;
 constexpr float housesPerRowMax = 6.0f;
 constexpr float houseRotationMin = -5.0f;
 constexpr float houseRotationMax = 5.0f;
-constexpr float rowWidth = 10.0f;
+constexpr float rowWidth = 13.0f;
 constexpr float roofMinSlope = -0.3f;
 constexpr float roofMaxSlope = 0.3f;
 } // namespace FavelasConstants

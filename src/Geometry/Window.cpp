@@ -3,7 +3,7 @@
  * Generate the geometry of the window (2D)
  */
 void Window::makeWindow(GLfloat width, GLfloat height) {
-    GLfloat c = 0.09;
+    GLfloat c = 0.04;
     GLfloat windowWidth = width / 2 - c;
     GLfloat windowHeight = height / 2 - c;
 

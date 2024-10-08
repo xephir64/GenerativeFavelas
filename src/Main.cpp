@@ -13,7 +13,6 @@
 #include "Geometry/Door.h"
 #include "Geometry/Wall.h"
 #include "Geometry/Window.h"
-#include "GridHelper.h"
 #include "Group.h"
 #include "Mesh.h"
 #include "Shader.h"
@@ -32,7 +31,7 @@ float xOffset = 0.1f;
 float yOffset = 1.5f;
 float zOffset = 0.5f;
 
-Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+Camera camera(glm::vec3(6.5f, 9.5f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -20.0f);
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -84,11 +83,14 @@ int main(void) {
             Door door;
             door.makeDoor(0.8f, 0.4f, house.door.fullWindow);
 
-            float windowWidth = house.width - 0.8f;
-            float windowHeight = house.width - 0.4f;
+            float windowWidth = (house.width - 0.8f) / 2;
+            float windowHeight = (house.height - 0.4f) / 2;
 
-            Window window;
-            window.makeWindow(windowWidth, windowHeight);
+            Window windowLeft;
+            windowLeft.makeWindow(windowWidth, windowHeight);
+
+            // Window windowRight;
+            // windowRight.makeWindow(windowWidth, windowHeight);
 
             float xPos = totalHousesWidth;
             float yPos = i * 2.0f;
@@ -102,14 +104,15 @@ int main(void) {
             door.setPosition(glm::vec3(xPosDoor, yPos, zPos + house.depth + 0.01f)); // 0.01 to avoid z-fighting
             door.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
 
-            float xPosWindow = 0.0f;
-            float yPosWindow = 0.0f;
+            float xPosWindow = (house.width / 2) / 2 + (xPos - (xOffset * i));
+            float yPosWindow = ((house.height - 0.4f) / 2) + yPos;
 
-            window.setPosition(glm::vec3(xPosWindow, yPosWindow, zPos + house.depth + 0.01f));
+            windowLeft.setPosition(glm::vec3(xPosWindow, yPosWindow, zPos + house.depth + 0.005f));
+            windowLeft.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
 
             wallGroup.Add(wall);
             wallGroup.Add(door);
-            // wallGroup.Add(window);
+            wallGroup.Add(windowLeft);
 
             totalHousesWidth += house.width + xOffset;
         }
@@ -130,8 +133,8 @@ int main(void) {
     // Door door;
     // door.makeDoor(1.5f, 2.0f, true);
 
-    GridHelper gridH;
-    gridH.makeGridHelper(20);
+    // GridHelper gridH;
+    // gridH.makeGridHelper(20);
 
     Shader shaderProgram("./../resources/shaders/shader.vert", "./../resources/shaders/shader.frag");
 
@@ -140,9 +143,9 @@ int main(void) {
     shaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     shaderProgram.setVec3("viewPos", camera.Position);
 
-    Shader gridShader("./../resources/shaders/GridShader.vert", "./../resources/shaders/GridShader.frag");
+    // Shader gridShader("./../resources/shaders/GridShader.vert", "./../resources/shaders/GridShader.frag");
 
-    gridShader.use();
+    // gridShader.use();
 
     glEnable(GL_DEPTH_TEST);
     // glEnable(GL_STENCIL_TEST);
@@ -176,6 +179,7 @@ int main(void) {
         wallGroup.Draw(shaderProgram);
         glDisable(GL_POLYGON_OFFSET_FILL);
 
+        /*
         gridShader.use();
         gridShader.setMat4("projection", projection);
         gridShader.setMat4("view", view);
@@ -185,6 +189,7 @@ int main(void) {
         gridShader.setMat4("model", model);
         gridShader.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
         gridH.Draw();
+        */
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -192,7 +197,7 @@ int main(void) {
     // Clean memory
     wallGroup.Clear();
     glDeleteProgram(shaderProgram.ID);
-    glDeleteProgram(gridShader.ID);
+    // glDeleteProgram(gridShader.ID);
 
     glfwTerminate();
     return 0;
