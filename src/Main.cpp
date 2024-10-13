@@ -39,7 +39,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(6.5f, 4.0f, 5.0f);
 
 int main(void) {
     glfwInit();
@@ -83,14 +83,14 @@ int main(void) {
             Door door;
             door.makeDoor(0.8f, 0.4f, house.door.fullWindow);
 
-            float windowWidth = (house.width - 0.8f) / 2;
-            float windowHeight = (house.height - 0.4f) / 2;
+            float windowWidth = (house.width - 0.8f) / 4.0f;
+            float windowHeight = (house.height - 0.4f) / 2.0f;
 
             Window windowLeft;
             windowLeft.makeWindow(windowWidth, windowHeight);
 
-            // Window windowRight;
-            // windowRight.makeWindow(windowWidth, windowHeight);
+            Window windowRight;
+            windowRight.makeWindow(windowWidth, windowHeight);
 
             float xPos = totalHousesWidth;
             float yPos = i * 2.0f;
@@ -99,20 +99,26 @@ int main(void) {
             wall.setPosition(glm::vec3(xPos, yPos, zPos));
             wall.setColor(glm::vec3(house.r, house.g, house.b));
 
-            float xPosDoor = (house.width / 2) + (xPos - (xOffset * i));
+            float xPosDoor = (house.width / 2.0f) + (xPos - (xOffset * i));
 
             door.setPosition(glm::vec3(xPosDoor, yPos, zPos + house.depth + 0.01f)); // 0.01 to avoid z-fighting
             door.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
 
-            float xPosWindow = (house.width / 2) / 2 + (xPos - (xOffset * i));
-            float yPosWindow = ((house.height - 0.4f) / 2) + yPos;
+            float xPosWindow = xPos + (house.width / 4.0f) - (windowWidth / 2.0f);
+            float yPosWindow = yPos + (house.height / 2.0f) - (windowHeight / 2.0f);
 
             windowLeft.setPosition(glm::vec3(xPosWindow, yPosWindow, zPos + house.depth + 0.005f));
             windowLeft.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
 
+            float xPosWinRight = xPos + (3.0f * house.width / 4.0f) - (windowWidth / 2.0f);
+
+            windowRight.setPosition(glm::vec3(xPosWinRight, yPosWindow, zPos + house.depth + 0.005f));
+            windowRight.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
+
             wallGroup.Add(wall);
             wallGroup.Add(door);
             wallGroup.Add(windowLeft);
+            wallGroup.Add(windowRight);
 
             totalHousesWidth += house.width + xOffset;
         }
