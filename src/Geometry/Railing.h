@@ -2,7 +2,7 @@
 #define RAILING_H
 #include "../Mesh.h"
 
-class Railing : Mesh {
+class Railing : public Mesh {
   public:
     void makeRailing(GLfloat width, GLfloat height, GLfloat depth, GLfloat angle, GLboolean cross);
 };

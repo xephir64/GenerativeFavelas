@@ -1,8 +1,6 @@
 #include "Mesh.h"
 
 void Mesh::Draw(Shader &shader) {
-    // TODO: Apply Shader before rendering Shader
-    // shader.use();
     shader.setVec3("objectColor", color);
 
     glm::mat4 model = glm::mat4(1.0f);

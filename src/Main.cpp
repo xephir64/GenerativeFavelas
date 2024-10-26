@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Config.h"
 #include "Geometry/Door.h"
+#include "Geometry/Railing.h"
 #include "Geometry/Wall.h"
 #include "Geometry/Window.h"
 #include "Group.h"
@@ -48,11 +49,13 @@ int main(void) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Generative Favelas | OpenGL", NULL, NULL);
+
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
+
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -108,39 +111,28 @@ int main(void) {
             float yPosWindow = yPos + (house.height / 2.0f) - (windowHeight / 2.0f);
 
             windowLeft.setPosition(glm::vec3(xPosWindow, yPosWindow, zPos + house.depth + 0.005f));
-            windowLeft.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
+            windowLeft.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
             float xPosWinRight = xPos + (3.0f * house.width / 4.0f) - (windowWidth / 2.0f);
 
             windowRight.setPosition(glm::vec3(xPosWinRight, yPosWindow, zPos + house.depth + 0.005f));
-            windowRight.setColor(glm::vec3(house.door.r, house.door.g, house.door.b));
+            windowRight.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            Railing railing;
+            railing.makeRailing(house.width, house.height, house.depth, house.roofSlope, false);
+            railing.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+            railing.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
             wallGroup.Add(wall);
             wallGroup.Add(door);
             wallGroup.Add(windowLeft);
             wallGroup.Add(windowRight);
+            // wallGroup.Add(railing);
 
             totalHousesWidth += house.width + xOffset;
         }
         totalHousesWidth = 0.0f;
     }
-
-    // Print config
-    /*for (const auto &row : config.rows) {
-        std::cout << "Row width: " << row.houseWidth << "\n";
-        for (const auto &house : row.houses) {
-            std::cout << "House width: " << house.width << ", rotation: " << house.rotation
-                      << ", height: " << house.height << ", depth: " << house.depth
-                      << ", depthOffset: " << house.depthOffset << "\n";
-        }
-        std::cout << "------\n";
-    }*/
-
-    // Door door;
-    // door.makeDoor(1.5f, 2.0f, true);
-
-    // GridHelper gridH;
-    // gridH.makeGridHelper(20);
 
     Shader shaderProgram("./../resources/shaders/shader.vert", "./../resources/shaders/shader.frag");
 
@@ -149,17 +141,13 @@ int main(void) {
     shaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     shaderProgram.setVec3("viewPos", camera.Position);
 
-    // Shader gridShader("./../resources/shaders/GridShader.vert", "./../resources/shaders/GridShader.frag");
-
-    // gridShader.use();
-
     glEnable(GL_DEPTH_TEST);
     // glEnable(GL_STENCIL_TEST);
 
     glDepthFunc(GL_LESS);
 
-    //  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    //  glDisable(GL_BLEND);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glDisable(GL_BLEND);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
@@ -185,25 +173,12 @@ int main(void) {
         wallGroup.Draw(shaderProgram);
         glDisable(GL_POLYGON_OFFSET_FILL);
 
-        /*
-        gridShader.use();
-        gridShader.setMat4("projection", projection);
-        gridShader.setMat4("view", view);
-
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
-        gridShader.setMat4("model", model);
-        gridShader.setVec3("objectColor", glm::vec3(0.0f, 0.5f, 0.31f));
-        gridH.Draw();
-        */
-
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
     // Clean memory
     wallGroup.Clear();
     glDeleteProgram(shaderProgram.ID);
-    // glDeleteProgram(gridShader.ID);
 
     glfwTerminate();
     return 0;
