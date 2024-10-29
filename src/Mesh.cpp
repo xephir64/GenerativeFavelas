@@ -1,10 +1,12 @@
 #include "Mesh.h"
+#include "glm/ext/matrix_transform.hpp"
 
 void Mesh::Draw(Shader &shader) {
     shader.setVec3("objectColor", color);
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, position);
+    model = glm::rotate(model, this->angle, glm::vec3(0.0, 0.0, 1.0));
     shader.setMat4("model", model);
 
     glBindVertexArray(VAO);

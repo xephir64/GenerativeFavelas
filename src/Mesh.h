@@ -40,6 +40,8 @@ class Mesh {
     glm::vec3 color;
     // Mesh position
     glm::vec3 position;
+    // Mesh rotation
+    float angle = 0.0f;
     // OpenGL Buffers IDs
     GLuint VAO, VBO, EBO;
 };

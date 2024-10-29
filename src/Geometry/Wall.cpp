@@ -16,12 +16,12 @@ void Wall::makeWall(GLfloat width, GLfloat height, GLfloat depth, GLfloat theta)
     //    0         1
 
     std::vector<GLuint> indices({
-        0, 1, 4, 1, 5, 4, // Front
-        2, 0, 6, 0, 4, 6, // Left
-        1, 7, 5, 1, 3, 7, // Right
-        0, 1, 2, 1, 3, 2, // Down
-        4, 5, 6, 5, 7, 6, // Up
-        2, 3, 6, 3, 7, 6  // Back
+        4, 0, 1, 1, 5, 4, // Front
+        6, 2, 0, 0, 4, 6, // Left
+        5, 1, 3, 3, 7, 5, // Right
+        2, 0, 1, 1, 3, 2, // Down
+        6, 4, 5, 5, 7, 6, // Up
+        6, 2, 3, 3, 7, 6  // Back
     });
 
     std::vector<glm::vec3> vertices;

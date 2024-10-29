@@ -120,14 +120,14 @@ int main(void) {
 
             Railing railing;
             railing.makeRailing(house.width, house.height, house.depth, house.roofSlope, false);
-            railing.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+            railing.setPosition(glm::vec3(xPos, yPos + house.height, zPos));
             railing.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
             wallGroup.Add(wall);
             wallGroup.Add(door);
             wallGroup.Add(windowLeft);
             wallGroup.Add(windowRight);
-            // wallGroup.Add(railing);
+            wallGroup.Add(railing);
 
             totalHousesWidth += house.width + xOffset;
         }
