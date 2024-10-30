@@ -3,7 +3,6 @@
 
 #include <glm/exponential.hpp>
 #include <glm/trigonometric.hpp>
-#include <iostream>
 /*
  * Generate the geometry of the railing
  */
@@ -31,7 +30,7 @@ void Railing::makeRailing(GLfloat width, GLfloat height, GLfloat depth, GLfloat 
     // Compute space between fence in width
     nbRailingWidth = glm::ceil((hypotenuse - t) / 0.15f);
     spaceWidth = (hypotenuse - t) / nbRailingWidth;
-    nbRailingWidth = glm::ceil(width / spaceWidth);
+    nbRailingWidth = glm::ceil(hypotenuse / spaceWidth);
 
     // Compute space between fence in depth
     nbRailingDepth = glm::ceil((depth) / 0.15f);
@@ -54,7 +53,7 @@ void Railing::makeRailing(GLfloat width, GLfloat height, GLfloat depth, GLfloat 
         for (int l = 0; l < base_indices.size(); l++)
             indices.push_back(base_indices[l] + i * 16);
 
-        // Check and link the fence to make the railing
+        // Link the fence to make the railing
         if (i > 0) {
             indices.insert(indices.end(),
                            {static_cast<GLuint>(15 + ((i - 1) * 16)), static_cast<GLuint>(13 + ((i - 1) * 16)),
@@ -91,8 +90,10 @@ void Railing::makeRailing(GLfloat width, GLfloat height, GLfloat depth, GLfloat 
         for (int j = 0; j < 8; j++)
             for (int k = 0; k < 2; k++)
                 vertices.push_back(glm::vec3(hypotenuse, yPoints[j], xPoints[k] + addSpace));
+
         for (int l = 0; l < base_indices.size(); l++)
             indices.push_back(base_indices[l] + i * 16);
+
         if (i > nbRailingWidth + nbRailingDepth) {
             // Link the fence to make the railing
             indices.insert(indices.end(),

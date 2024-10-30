@@ -2,6 +2,8 @@
 #include <random>
 #include <stdlib.h>
 
+std::knuth_b rand_engine;
+
 unsigned int getRandomNumberuv(unsigned int min, unsigned int max) { return min + rand() % (max - min + 1); }
 
 float getRandomNumberfv(float min, float max) {
@@ -9,6 +11,11 @@ float getRandomNumberfv(float min, float max) {
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dis(min, max);
     return dis(gen);
+}
+
+bool getRandomBoolean(float probability) {
+    std::bernoulli_distribution bd(probability);
+    return bd(rand_engine);
 }
 
 void FavelasConfig::generateConfiguration() {
@@ -43,7 +50,13 @@ void FavelasConfig::generateConfiguration() {
             doorConfig.b = getRandomNumberfv(0.0f, 1.0f);
             doorConfig.fullWindow = getRandomNumberuv(0, 1);
 
+            RailingConfig railingConf;
+            railingConf.hasRailing = getRandomBoolean(RailingConstants::railingProbability);
+            if (railingConf.hasRailing)
+                railingConf.crossed = getRandomBoolean(RailingConstants::crossingProbability);
+
             house.door = doorConfig;
+            house.railing = railingConf;
 
             row.houses.push_back(house);
             totalWidth += width;

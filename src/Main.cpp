@@ -118,16 +118,18 @@ int main(void) {
             windowRight.setPosition(glm::vec3(xPosWinRight, yPosWindow, zPos + house.depth + 0.005f));
             windowRight.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            Railing railing;
-            railing.makeRailing(house.width, house.height, house.depth, house.roofSlope, false);
-            railing.setPosition(glm::vec3(xPos, yPos + house.height, zPos));
-            railing.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
-
             wallGroup.Add(wall);
             wallGroup.Add(door);
             wallGroup.Add(windowLeft);
             wallGroup.Add(windowRight);
-            wallGroup.Add(railing);
+
+            if (house.railing.hasRailing) {
+                Railing railing;
+                railing.makeRailing(house.width, house.height, house.depth, house.roofSlope, false);
+                railing.setPosition(glm::vec3(xPos, yPos + house.height, zPos));
+                railing.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
+                wallGroup.Add(railing);
+            }
 
             totalHousesWidth += house.width + xOffset;
         }

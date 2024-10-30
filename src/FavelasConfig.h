@@ -21,9 +21,20 @@ constexpr float houseDepthMin = 1.0f;
 constexpr float houseDepthMax = 2.5f;
 } // namespace HouseConstants
 
+namespace RailingConstants {
+constexpr float railingProbability = 0.3f;
+constexpr float crossingProbability = 0.5f;
+} // namespace RailingConstants
+
 struct DoorConfig {
     float r, g, b;
     bool fullWindow;
+};
+
+struct RailingConfig {
+    bool hasRailing;
+    bool crossed;
+    float r, g, b;
 };
 
 struct House {
@@ -35,6 +46,7 @@ struct House {
     float roofSlope;
     float r, g, b;
     struct DoorConfig door;
+    struct RailingConfig railing;
     House(float rot = 0.0f, float w = 0.0f, float h = 0.0f, float d = 0.0f, float dOffset = 0.0f, float slope = 0.0f)
         : rotation(rot), width(w), height(h), depth(d), depthOffset(dOffset), roofSlope(slope) {}
 };
