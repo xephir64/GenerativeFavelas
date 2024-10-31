@@ -12,6 +12,7 @@
 #include "Config.h"
 #include "Geometry/Door.h"
 #include "Geometry/Railing.h"
+#include "Geometry/Square.h"
 #include "Geometry/Wall.h"
 #include "Geometry/Window.h"
 #include "Group.h"
@@ -92,8 +93,14 @@ int main(void) {
             Window windowLeft;
             windowLeft.makeWindow(windowWidth, windowHeight);
 
+            Square squareLeft;
+            squareLeft.makeSquare(windowWidth, windowHeight);
+
             Window windowRight;
             windowRight.makeWindow(windowWidth, windowHeight);
+
+            Square squareRight;
+            squareRight.makeSquare(windowWidth, windowHeight);
 
             float xPos = totalHousesWidth;
             float yPos = i * 2.0f;
@@ -113,19 +120,27 @@ int main(void) {
             windowLeft.setPosition(glm::vec3(xPosWindow, yPosWindow, zPos + house.depth + 0.005f));
             windowLeft.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
+            squareLeft.setPosition(glm::vec3(xPosWindow, yPosWindow, zPos + house.depth + 0.003f));
+            squareLeft.setColor(glm::vec3(1, 213, 200));
+
             float xPosWinRight = xPos + (3.0f * house.width / 4.0f) - (windowWidth / 2.0f);
 
             windowRight.setPosition(glm::vec3(xPosWinRight, yPosWindow, zPos + house.depth + 0.005f));
             windowRight.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
+            squareRight.setPosition(glm::vec3(xPosWinRight, yPosWindow, zPos + house.depth + 0.003f));
+            squareRight.setColor(glm::vec3(1, 213, 200));
+
             wallGroup.Add(wall);
             wallGroup.Add(door);
             wallGroup.Add(windowLeft);
+            wallGroup.Add(squareLeft);
             wallGroup.Add(windowRight);
+            wallGroup.Add(squareRight);
 
             if (house.railing.hasRailing) {
                 Railing railing;
-                railing.makeRailing(house.width, house.height, house.depth, house.roofSlope, false);
+                railing.makeRailing(house.width, house.height, house.depth, house.roofSlope, house.railing.crossed);
                 railing.setPosition(glm::vec3(xPos, yPos + house.height, zPos));
                 railing.setColor(glm::vec3(0.0f, 0.0f, 0.0f));
                 wallGroup.Add(railing);

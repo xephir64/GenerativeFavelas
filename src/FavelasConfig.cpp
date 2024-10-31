@@ -2,12 +2,12 @@
 #include <random>
 #include <stdlib.h>
 
+std::random_device rd;
 std::knuth_b rand_engine;
 
 unsigned int getRandomNumberuv(unsigned int min, unsigned int max) { return min + rand() % (max - min + 1); }
 
 float getRandomNumberfv(float min, float max) {
-    std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dis(min, max);
     return dis(gen);
