@@ -12,8 +12,13 @@ add_subdirectory(dependencies/glfw)
 include_directories(dependencies/glad/include/
                     dependencies/glfw/include/
                     dependencies/glm/
-                    dependencies/stb/)
+                    dependencies/stb/
+                    )
 
+
+set(IMGUI_DIR dependencies/imgui)
+include_directories(${IMGUI_DIR} ..)
+include_directories(${IMGUI_DIR}/backends)
 
 file(GLOB VENDORS_SOURCES dependencies/glad/src/glad.c)
 file(GLOB_RECURSE PROJECT_HEADERS "src/*.h")
@@ -30,6 +35,6 @@ else()
     endif()
 endif()
 
-add_executable(GenerativeFavelas ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${VENDORS_SOURCES})
+add_executable(GenerativeFavelas ${PROJECT_SOURCES} ${PROJECT_HEADERS} ${VENDORS_SOURCES} ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_tables.cpp ${IMGUI_DIR}/imgui_widgets.cpp)
 
 target_link_libraries(GenerativeFavelas glfw)
