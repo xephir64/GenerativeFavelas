@@ -48,6 +48,7 @@ int main(void) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
 
     GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Generative Favelas | OpenGL", NULL, NULL);
 
@@ -158,9 +159,9 @@ int main(void) {
     shaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     shaderProgram.setVec3("viewPos", camera.Position);
 
+    glEnable(GL_MULTISAMPLE);
     glEnable(GL_DEPTH_TEST);
     // glEnable(GL_STENCIL_TEST);
-
     glDepthFunc(GL_LESS);
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -186,7 +187,7 @@ int main(void) {
         shaderProgram.setMat4("view", view);
 
         glEnable(GL_POLYGON_OFFSET_FILL);
-        glPolygonOffset(2.0f, 2.0f);
+        glPolygonOffset(-1.0f, -4.0f);
         wallGroup.Draw(shaderProgram);
         glDisable(GL_POLYGON_OFFSET_FILL);
 

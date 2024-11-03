@@ -53,24 +53,24 @@ void Railing::makeRailing(GLfloat width, GLfloat height, GLfloat depth, GLfloat 
         for (int l = 0; l < base_indices.size(); l++)
             indices.push_back(base_indices[l] + i * 16);
 
-        if (cross && i > 0) {
-            if (i & 1)
-                indices.insert(indices.end(),
-                               {static_cast<GLuint>(11 + ((i - 1) * 16)), static_cast<GLuint>(9 + ((i - 1) * 16)),
-                                static_cast<GLuint>(8 + (i * 16)), static_cast<GLuint>(8 + (i * 16)),
-                                static_cast<GLuint>(10 + (i * 16)), static_cast<GLuint>(11 + ((i - 1) * 16))});
-            else
-                indices.insert(indices.end(),
-                               {static_cast<GLuint>(7 + ((i - 1) * 16)), static_cast<GLuint>(5 + ((i - 1) * 16)),
-                                static_cast<GLuint>(4 + (i * 16)), static_cast<GLuint>(4 + (i * 16)),
-                                static_cast<GLuint>(6 + (i * 16)), static_cast<GLuint>(7 + ((i - 1) * 16))});
-        }
-
-        if (i > 0)
+        if (i > 0) {
+            if (cross) {
+                if (i & 1)
+                    indices.insert(indices.end(),
+                                   {static_cast<GLuint>(11 + ((i - 1) * 16)), static_cast<GLuint>(9 + ((i - 1) * 16)),
+                                    static_cast<GLuint>(8 + (i * 16)), static_cast<GLuint>(8 + (i * 16)),
+                                    static_cast<GLuint>(10 + (i * 16)), static_cast<GLuint>(11 + ((i - 1) * 16))});
+                else
+                    indices.insert(indices.end(),
+                                   {static_cast<GLuint>(7 + ((i - 1) * 16)), static_cast<GLuint>(5 + ((i - 1) * 16)),
+                                    static_cast<GLuint>(4 + (i * 16)), static_cast<GLuint>(4 + (i * 16)),
+                                    static_cast<GLuint>(6 + (i * 16)), static_cast<GLuint>(7 + ((i - 1) * 16))});
+            }
             indices.insert(indices.end(),
                            {static_cast<GLuint>(15 + ((i - 1) * 16)), static_cast<GLuint>(13 + ((i - 1) * 16)),
                             static_cast<GLuint>(12 + (i * 16)), static_cast<GLuint>(12 + (i * 16)),
                             static_cast<GLuint>(14 + (i * 16)), static_cast<GLuint>(15 + ((i - 1) * 16))});
+        }
 
         addSpace += spaceDepth;
     }
@@ -85,24 +85,24 @@ void Railing::makeRailing(GLfloat width, GLfloat height, GLfloat depth, GLfloat 
         for (int l = 0; l < base_indices.size(); l++)
             indices.push_back(base_indices[l] + i * 16);
 
-        if (cross && i > 0) {
-            if (i & 1)
-                indices.insert(indices.end(),
-                               {static_cast<GLuint>(11 + ((i - 1) * 16)), static_cast<GLuint>(9 + ((i - 1) * 16)),
-                                static_cast<GLuint>(8 + (i * 16)), static_cast<GLuint>(8 + (i * 16)),
-                                static_cast<GLuint>(10 + (i * 16)), static_cast<GLuint>(11 + ((i - 1) * 16))});
-            else
-                indices.insert(indices.end(),
-                               {static_cast<GLuint>(7 + ((i - 1) * 16)), static_cast<GLuint>(5 + ((i - 1) * 16)),
-                                static_cast<GLuint>(4 + (i * 16)), static_cast<GLuint>(4 + (i * 16)),
-                                static_cast<GLuint>(6 + (i * 16)), static_cast<GLuint>(7 + ((i - 1) * 16))});
-        }
-
-        if (i > nbRailingDepth)
+        if (i > nbRailingDepth) {
+            if (cross) {
+                if ((i + 1) & 1)
+                    indices.insert(indices.end(),
+                                   {static_cast<GLuint>(11 + ((i - 1) * 16)), static_cast<GLuint>(9 + ((i - 1) * 16)),
+                                    static_cast<GLuint>(8 + (i * 16)), static_cast<GLuint>(8 + (i * 16)),
+                                    static_cast<GLuint>(10 + (i * 16)), static_cast<GLuint>(11 + ((i - 1) * 16))});
+                else
+                    indices.insert(indices.end(),
+                                   {static_cast<GLuint>(7 + ((i - 1) * 16)), static_cast<GLuint>(5 + ((i - 1) * 16)),
+                                    static_cast<GLuint>(4 + (i * 16)), static_cast<GLuint>(4 + (i * 16)),
+                                    static_cast<GLuint>(6 + (i * 16)), static_cast<GLuint>(7 + ((i - 1) * 16))});
+            }
             indices.insert(indices.end(),
                            {static_cast<GLuint>(15 + ((i - 1) * 16)), static_cast<GLuint>(13 + ((i - 1) * 16)),
                             static_cast<GLuint>(12 + (i * 16)), static_cast<GLuint>(12 + (i * 16)),
                             static_cast<GLuint>(14 + (i * 16)), static_cast<GLuint>(15 + ((i - 1) * 16))});
+        }
 
         addSpace = spaceWidth + addSpace;
     }
@@ -117,24 +117,24 @@ void Railing::makeRailing(GLfloat width, GLfloat height, GLfloat depth, GLfloat 
         for (int l = 0; l < base_indices.size(); l++)
             indices.push_back(base_indices[l] + i * 16);
 
-        if (cross && i > 0) {
-            if (i & 1)
-                indices.insert(indices.end(),
-                               {static_cast<GLuint>(11 + ((i - 1) * 16)), static_cast<GLuint>(9 + ((i - 1) * 16)),
-                                static_cast<GLuint>(8 + (i * 16)), static_cast<GLuint>(8 + (i * 16)),
-                                static_cast<GLuint>(10 + (i * 16)), static_cast<GLuint>(11 + ((i - 1) * 16))});
-            else
-                indices.insert(indices.end(),
-                               {static_cast<GLuint>(7 + ((i - 1) * 16)), static_cast<GLuint>(5 + ((i - 1) * 16)),
-                                static_cast<GLuint>(4 + (i * 16)), static_cast<GLuint>(4 + (i * 16)),
-                                static_cast<GLuint>(6 + (i * 16)), static_cast<GLuint>(7 + ((i - 1) * 16))});
-        }
-
-        if (i > nbRailingWidth + nbRailingDepth)
+        if (i > nbRailingWidth + nbRailingDepth) {
+            if (cross) {
+                if (i & 1)
+                    indices.insert(indices.end(),
+                                   {static_cast<GLuint>(11 + ((i - 1) * 16)), static_cast<GLuint>(9 + ((i - 1) * 16)),
+                                    static_cast<GLuint>(8 + (i * 16)), static_cast<GLuint>(8 + (i * 16)),
+                                    static_cast<GLuint>(10 + (i * 16)), static_cast<GLuint>(11 + ((i - 1) * 16))});
+                else
+                    indices.insert(indices.end(),
+                                   {static_cast<GLuint>(7 + ((i - 1) * 16)), static_cast<GLuint>(5 + ((i - 1) * 16)),
+                                    static_cast<GLuint>(4 + (i * 16)), static_cast<GLuint>(4 + (i * 16)),
+                                    static_cast<GLuint>(6 + (i * 16)), static_cast<GLuint>(7 + ((i - 1) * 16))});
+            }
             indices.insert(indices.end(),
                            {static_cast<GLuint>(15 + ((i - 1) * 16)), static_cast<GLuint>(13 + ((i - 1) * 16)),
                             static_cast<GLuint>(12 + (i * 16)), static_cast<GLuint>(12 + (i * 16)),
                             static_cast<GLuint>(14 + (i * 16)), static_cast<GLuint>(15 + ((i - 1) * 16))});
+        }
 
         addSpace = spaceDepth + addSpace;
     }
