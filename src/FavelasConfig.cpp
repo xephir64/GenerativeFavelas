@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 std::random_device rd;
-std::knuth_b rand_engine;
 
 unsigned int getRandomNumberuv(unsigned int min, unsigned int max) { return min + rand() % (max - min + 1); }
 
@@ -15,7 +14,7 @@ float getRandomNumberfv(float min, float max) {
 
 bool getRandomBoolean(float probability) {
     std::bernoulli_distribution bd(probability);
-    return bd(rand_engine);
+    return bd(rd);
 }
 
 void FavelasConfig::generateConfiguration() {
