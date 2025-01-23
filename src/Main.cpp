@@ -14,6 +14,7 @@
 
 #include "Camera.h"
 #include "Config.h"
+#include "FavelasConfig.h"
 #include "Geometry/Door.h"
 #include "Geometry/Railing.h"
 #include "Geometry/Square.h"
@@ -22,8 +23,7 @@
 #include "Group.h"
 #include "Mesh.h"
 #include "Shader.h"
-
-#include "FavelasConfig.h"
+#include "Skybox.h"
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -170,10 +170,19 @@ int main(void) {
     shaderProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
     shaderProgram.setVec3("viewPos", camera.Position);
 
+    Shader shaderSkybox("./../resources/shaders/Skybox.vert", "./../resources/shaders/Skybox.frag");
+
+    std::vector<std::string> faces{"./../resources/skybox/right.png", "./../resources/skybox/left.png",
+                                   "./../resources/skybox/up.png",    "./../resources/skybox/down.png",
+                                   "./../resources/skybox/front.png", "./../resources/skybox/back.png"};
+
+    Skybox skybox;
+    skybox.loadCubemap(faces);
+
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_DEPTH_TEST);
     // glEnable(GL_STENCIL_TEST);
-    glDepthFunc(GL_LESS);
+    glDepthFunc(GL_LEQUAL);
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // glDisable(GL_BLEND);
@@ -201,6 +210,15 @@ int main(void) {
         glPolygonOffset(-1.0f, -4.0f);
         wallGroup.Draw(shaderProgram);
         glDisable(GL_POLYGON_OFFSET_FILL);
+
+        glDepthMask(GL_FALSE);
+        shaderSkybox.use();
+        glm::mat4 view_skybox = glm::mat4(glm::mat3(camera.GetViewMatrix()));
+        shaderSkybox.setMat4("projection", projection);
+        shaderSkybox.setMat4("view", view_skybox);
+
+        skybox.Draw(shaderSkybox);
+        glDepthMask(GL_TRUE);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
